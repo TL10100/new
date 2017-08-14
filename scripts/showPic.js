@@ -11,3 +11,20 @@ function showPic(whichpic) {
 //     alert(body_element.nodeType);
 // }
 // window.onload = countBodyChildren;
+
+// function popUp(winurl) {
+//     window.open(winurl,'popUp','width=320,height=480');
+// }
+
+function prepareGallery() {
+    if (!document.getElementById || !document.getElementsByTagName) return false;
+    if (!document.getElementById('imagegallery')) return false;
+    var gallery = document.getElementById('imagegallery');
+    var links = gallery.getElementsByTagName('a');
+    for (var i=0; i<links.length; i++) {
+        links[i].onclick = function () {
+            showPic(this);
+            return false;
+        }
+    }
+}
