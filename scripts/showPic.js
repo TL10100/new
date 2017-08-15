@@ -1,10 +1,14 @@
 function showPic(whichpic) {
-    var source = whichpic.getAttribute('href'); //获取href的数值
-    var placeholder = document.getElementById('placeholder'); //获得placeholder的元素
-    var text = whichpic.getAttribute('title');
-    var description = document.getElementById('description');
-    placeholder.setAttribute('src',source);
-    description.firstChild.nodeValue = text;
+    if (!document.getElementById('placeholder')) return false;
+        var source = whichpic.getAttribute('href'); //获取href的数值
+        var placeholder = document.getElementById('placeholder'); //获得placeholder的元素
+        placeholder.setAttribute('src',source);
+    if (document.getElementById('description')) {
+        var text = whichpic.getAttribute('title');
+        var description = document.getElementById('description');
+        description.firstChild.nodeValue = text;
+    } return true;
+
 }
 // function countBodyChildren() {
 //     var body_element = document.getElementsByTagName('body')[0];
@@ -16,6 +20,18 @@ function showPic(whichpic) {
 //     window.open(winurl,'popUp','width=320,height=480');
 // }
 
+function addLoadEvent(func) {
+    var oldonload = window.onload;
+    if (typeof window.onload != 'function'){
+        window.onload = func;
+    } else {
+        window.onload = function(){
+            oldonload();
+            func();
+        }
+    }
+}
+
 function prepareGallery() {
     if (!document.getElementById || !document.getElementsByTagName) return false;
     if (!document.getElementById('imagegallery')) return false;
@@ -23,8 +39,9 @@ function prepareGallery() {
     var links = gallery.getElementsByTagName('a');
     for (var i=0; i<links.length; i++) {
         links[i].onclick = function () {
-            showPic(this);
-            return false;
+            return !showPic(this);
+
         }
     }
 }
+addLoadEvent(prepareGallery);
