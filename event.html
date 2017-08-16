@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<div id="box">
+<input type="button" value="按钮" id="btn">
+    <a href="http://www.baidu.com" id="go">点击不会进行跳转</a>
+</div>
+<script>
+    function showMes(e) {
+        alert(e.target);
+        e.stopPropagation()
+    }
+    function showBox() {
+        alert('box的弹出');
+    }
+    function stopGoTo(e) {
+        e.stopPropagation();
+        e.preventDefault();
+    }
+    var btn = document.getElementById('btn');
+    var box = document.getElementById('box');
+    var go = document.getElementById('go');
+//    btn.addEventListener('click',showMes,false);
+//    btn.addEventListener('click',function () {
+//        alert(this.value);
+//    },false);
+    //btn.removeEventListener('click',showMes,false);
+//btn.attachEvent('onclick',showMes);
+    var eventUtil = {
+        addHandler:function (element,type,handle){
+            if(element.addEventListener){
+                element.addEventListener(type,handle,false);
+
+            }else if(element.attachEvent){
+                element.attachEvent('on'+type,handle);
+
+            }else{
+                element['on'+type] = handle;
+            }
+        },
+//        removeHandler:function (element,type,handle){
+//            if(element.removeEventListener){
+//                element.removeEventListener(type,handle,false);
+//
+//            }else if(element.detachEvent){
+//                element.detachEvent('on'+type,handle);
+//
+//            }else{
+//                element['on'+type] = null;
+//            }
+//        }
+    };
+    eventUtil.addHandler(btn,'click',showMes);
+//    eventUtil.removeHandler(btn,'click',showMes);
+    eventUtil.addHandler(box,'click',showBox);
+    eventUtil.addHandler(go,'click',stopGoTo);
+</script>
+
+</body>
+</html>
